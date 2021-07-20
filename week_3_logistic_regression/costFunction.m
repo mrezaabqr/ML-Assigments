@@ -20,12 +20,19 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+% fprintf('%dx%d\n', size(theta));
+% fprintf('%dx%d\n', size(X));
+% fprintf('%dx%d\n', size(y));
 
+% sigmoid( 100x2 * 2x1)
+y_pred = sigmoid(X * theta);
 
+% % 100x1 * log(100x1) - (1 - 100x1) * (1 - 100x1)
+J = (1 / m) * sum( -y .* log(y_pred) - (1 - y) .* log(1 - y_pred));
 
-
-
-
+% % 100x2 * (100x1)
+grad = (1 / m) * X' * (y_pred - y);
+% grad = (1 / m) * X' * (  (-y ./ y_pred) - ((1 - y) ./ (1 - y_pred)) );
 
 % =============================================================
 
