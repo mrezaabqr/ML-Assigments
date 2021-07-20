@@ -26,7 +26,6 @@ clear ; close all; clc
 data = load('ex2data1.txt');
 X = data(:, [1, 2]); y = data(:, 3);
 
-
 %% ==================== Part 1: Plotting ====================
 %  We start the exercise by first plotting the data to understand the 
 %  the problem we are working with.
@@ -35,7 +34,6 @@ fprintf(['Plotting data with + indicating (y = 1) examples and o ' ...
          'indicating (y = 0) examples.\n']);
 
 plotData(X, y);
-
 
 % Put some labels 
 hold on;
@@ -55,7 +53,6 @@ pause;
 %  In this part of the exercise, you will implement the cost and gradient
 %  for logistic regression. You neeed to complete the code in 
 %  costFunction.m
-
 
 %  Setup the data matrix appropriately, and add ones for the intercept term
 [m, n] = size(X);

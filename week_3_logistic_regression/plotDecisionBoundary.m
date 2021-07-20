@@ -27,8 +27,8 @@ if size(X, 2) <= 3
     axis([30, 100, 30, 100])
 else
     % Here is the grid range
-    u = linspace(-1, 1.5, 50);
-    v = linspace(-1, 1.5, 50);
+    u = linspace(30, 100, 150);
+    v = linspace(30, 100, 150);
 
     z = zeros(length(u), length(v));
     % Evaluate z = theta*x over the grid
