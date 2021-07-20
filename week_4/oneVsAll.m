@@ -49,16 +49,23 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+for c = 1:num_labels
+    theta = all_theta(c, :)';
+    fprintf('Training process started for class = %d \n', c);
+
+    options = optimset('GradObj', 'on', 'MaxIter', 50);
 
 
+    y_c = y == c;
+    
+    [theta] = ...
+            fmincg (@(t)(lrCostFunction(t, X, y_c, lambda)), ...
+                    theta, options);
+    theta = theta';                
+    all_theta(c, :) = theta;
+    
 
-
-
-
-
-
-
-
+endfor
 
 % =========================================================================
 
