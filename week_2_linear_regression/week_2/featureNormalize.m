@@ -27,12 +27,15 @@ sigma = zeros(1, size(X, 2));
 %       
 
 
+% fprintf('%dx%d\n', size(mu));
+% fprintf('%dx%d\n', size(sigma));
+% mu : 1x2
+mu = mean(X);
 
+% sigma : 1x2
+sigma = std(X);
 
-
-
-
-
+X_norm = (X .- mu) ./ sigma;
 
 % ============================================================
 

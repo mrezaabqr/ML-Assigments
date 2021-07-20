@@ -15,12 +15,14 @@ J = 0;
 % fprintf('%dx%d\n', size(X));
 % fprintf('%dx%d\n', size(theta));
 
-y_pred =  X * theta;
+% theta : 2x1
+% X : 97x2
+y_pred = X * theta;
 
-% fprintf('%dx%d\n', size(y_pred));
+% fprintf('%dx%d\n', size(y));
 % fprintf('%dx%d\n', size(y));
 
-J = (1/m) * sum((y - y_pred).^2);
+J = (1 / (2 * m)) * sum((y_pred - y).^2);
 
 % =========================================================================
 

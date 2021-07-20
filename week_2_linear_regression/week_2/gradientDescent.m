@@ -17,10 +17,11 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
 
-
-
-
-
+    % (97x2) * (2x1)
+    y_pred =  X * theta;
+    
+    % (2x97) * (97x1 - 97x1)
+    theta = theta - alpha * (1 / m) * ( X' * (y_pred - y));
 
 
     % ============================================================
@@ -29,5 +30,4 @@ for iter = 1:num_iters
     J_history(iter) = computeCost(X, y, theta);
 
 end
-
 end
