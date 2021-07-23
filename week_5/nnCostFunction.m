@@ -77,14 +77,18 @@ J = (1 / m) * sum(   sum(-y_onehot.*log(y_pred), 2) - sum((1-y_onehot).*log(1-y_
 
 % -------------------------------------------------------------
 
-% temp_theta1 = Theta1;
-% temp_theta2 = Theta2;
+regTheta1 =  Theta1(:,2:end);
+regTheta2 =  Theta2(:,2:end);
 
-% temp_theta1(:, 1) = 0;
-% temp_theta2(:, 1) = 0;
+err_3 = y_pred - y;
+delta_2 = (Theta2' * err_3) .*  sigmoidGradient(A2);
+delta_1 = (Theta1' * err_2) .*  sigmoidGradient(A1);
 
-% Theta2_grad = (A2 .* (1 .- A2))' * ((y_pred - y) * Theta2);
-% Theta1_grad = (Theta2_grad * Theta1) .* A1 .* (1 .- A1);
+
+Theta1_grad = 1/m * delta_1 + (lambda / m) * [zeros(size(Theta1, 1), 1) regTheta1];
+Theta2_grad = 1/m * delta_2 + (lambda / m) * [zeros(size(Theta2, 1), 1) regTheta2];
+
+
 % =========================================================================
 
 % Unroll gradients
