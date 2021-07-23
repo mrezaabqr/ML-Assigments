@@ -63,30 +63,60 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 X = [ones(m, 1) X];
-A1 = sigmoid(X * Theta1');
-A1 = [ones(m, 1) A1];
-A2 = sigmoid(A1 * Theta2');
-y_pred = A2;
+
+A2 = sigmoid(X * Theta1');
+A2 = [ones(m, 1) A2];
+
+A3 = sigmoid(A2 * Theta2');
+y_pred = A3;
 
 y_onehot = [zeros(m, num_labels)];
-
 y_onehot(sub2ind(size(y_onehot), 1:m, y')) = 1;
 
-J = (1 / m) * sum(   sum(-y_onehot.*log(y_pred), 2) - sum((1-y_onehot).*log(1-y_pred), 2)  , 1) + ...
-    (lambda / (2*m)) * (sum(sum(Theta1.^2, 2), 1) + sum(sum(Theta2.^2, 2), 1));
+J = (1 / m) * sum(   sum(-y_onehot.*log(y_pred), 2) - sum((1-y_onehot).*log(1-y_pred), 2)  , 1);
 
 % -------------------------------------------------------------
+theta_temp1 = Theta1(:,2:size(Theta1,2));
+theta_temp2 = Theta2(:,2:size(Theta2,2));
 
-regTheta1 =  Theta1(:,2:end);
-regTheta2 =  Theta2(:,2:end);
+reg = (lambda / (2*m)) * (sum(sum(theta_temp1.^2, 2), 1) + sum(sum(theta_temp2.^2, 2), 1));
 
-err_3 = y_pred - y;
-delta_2 = (Theta2' * err_3) .*  sigmoidGradient(A2);
-delta_1 = (Theta1' * err_2) .*  sigmoidGradient(A1);
+J = J + reg;
+
+% Back propagation
+for t=1:m
+    sample_A1 = X(t, :); # 1x401
+
+    sample_Z2 = sample_A1 * Theta1'; # 1x401 * (25x401)' = 1x25
+    sample_A2 = sigmoid(sample_Z2);  # 1x25
+ 
+    sample_A2 = [1 sample_A2]; # 1x26
+
+    sample_Z3 = sample_A2 * Theta2'; # 1x26 * (10x26)' = 1x10
+    smaple_A3 = sigmoid(sample_Z3); # 1x10
 
 
-Theta1_grad = 1/m * delta_1 + (lambda / m) * [zeros(size(Theta1, 1), 1) regTheta1];
-Theta2_grad = 1/m * delta_2 + (lambda / m) * [zeros(size(Theta2, 1), 1) regTheta2];
+    error_l3 = smaple_A3 - y_onehot(t, :); # 1x10 - 1x10
+    sample_Z2 = [1 sample_Z2]; # 1x26
+    
+    error_l2 = (error_l3 * Theta2) .* sigmoidGradient(sample_Z2); # (1x10 * 10x26) .* 1x26
+    error_l2 = error_l2(2:end); # 1x25
+
+    % fprintf('%dx%d\n', size(Theta1_grad));
+
+    Theta2_grad = Theta2_grad + error_l3' * sample_A2; # 10x26 + (1x10)' * 1x26 = 10x26 + 10x26
+	Theta1_grad = Theta1_grad + error_l2' * sample_A1; # 25x401 + (1x25)' * 1x401 = 25x401 + 25x401
+    
+end;
+
+% Step 5
+Theta2_grad = (1/m) * Theta2_grad; % (10*26)
+Theta1_grad = (1/m) * Theta1_grad; % (25*401)
+
+
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + ((lambda/m) * Theta1(:, 2:end)); % for j >= 1 
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + ((lambda/m) * Theta2(:, 2:end)); % for j >= 1
+
 
 
 % =========================================================================
