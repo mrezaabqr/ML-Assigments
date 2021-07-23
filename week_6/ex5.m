@@ -23,6 +23,7 @@ clear ; close all; clc
 %  The following code will load the dataset into your environment and plot
 %  the data.
 %
+% fprintf('%dx%d\n', size(y));
 
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
@@ -154,7 +155,6 @@ fprintf('  %f  \n', X_poly(1, :));
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
-
 
 
 %% =========== Part 7: Learning Curve for Polynomial Regression =============

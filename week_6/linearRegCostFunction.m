@@ -20,11 +20,17 @@ grad = zeros(size(theta));
 %
 
 
+y_pred = X * theta;
+
+% fprintf('%dx%d\n', size(y));
+
+new_theta = theta;
+new_theta(1) = 0;
+
+J = (1 / (2 * m)) * sum((y_pred - y).^2) + (lambda / (2*m)) * sum(new_theta.^2);
 
 
-
-
-
+grad = (1 / (m)) * X' * (y_pred - y) + (lambda / m) * new_theta;
 
 
 
