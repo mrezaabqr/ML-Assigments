@@ -24,10 +24,33 @@ sigma = 0.3;
 %
 
 
+C_vec = [0 0.01 0.03 0.1 0.3 1 3 10 30]';
+sigma_vec = [0 0.01 0.03 0.1 0.3 1 3 10 30]';
 
+error_val = zeros(length(C_vec), length(sigma_vec));
 
+for c_index = 1:length(C_vec)
+    for sigma_index = 1:length(sigma_vec)
+        model = svmTrain(X, y, C_vec(c_index), @(x1, x2) gaussianKernel(x1, x2, sigma_vec(sigma_index)));
+        predictions = svmPredict(model, Xval);
+        error_val(c_index, sigma_index) = mean(double(predictions ~= yval));
+        % fprintf('C = %d - Sigma = %d - Error = %d\n', C_vec(c_index), sigma_vec(sigma_index), error_val(c_index, sigma_index));
+    end
+end
 
+% error_val
 
+minVal = min(min(error_val));
+
+% fprintf('err = %d \n', minVal);
+
+[best_C_idx, best_sigma_idx] = find(error_val == minVal);
+
+% fprintf('best_C_idx = %d best_sigma_idx = %d\n', best_C_idx, best_sigma_idx);
+
+C = C_vec(best_C_idx);
+sigma = sigma_vec(best_sigma_idx);
+% fprintf('C = %d - Sigma = %d \n', C, sigma);
 
 % =========================================================================
 
