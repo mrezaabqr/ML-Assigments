@@ -40,20 +40,27 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% fprintf("%dx%d\n", size(X));
+% fprintf("%dx%d\n", size(Theta));
+% fprintf("%dx%d\n", size(Y));
+% fprintf("%dx%d\n", size(R));
 
+% 5x3
+% 4x3
+% 5x4
+% 5x4
 
+J = (1 / 2) * sum( sum(((X * Theta').*R .- Y ) .^ 2) );
 
+% temp_theta = Theta()
 
+reg_term = (lambda / 2) * ( sum( sum( X .^ 2)  ) + sum( sum( Theta .^ 2)  ));
 
+J = J + reg_term;
 
+Theta_grad = ((X * Theta').*R .- Y)' * X + lambda * Theta;
 
-
-
-
-
-
-
-
+X_grad = ((X * Theta').*R .- Y) * Theta + lambda * X;
 
 % =============================================================
 

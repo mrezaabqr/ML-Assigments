@@ -21,12 +21,14 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
+% fprintf("%dx%d\n", size(X));
 
+mu = ((1/m) * sum(X));
 
+sigma2 = (1/m) * sum((X .- mu).^2);
 
-
-
-
+% fprintf("%dx%d\n", size(mu));
+% fprintf("%dx%d\n", size(sigma2));
 
 
 
