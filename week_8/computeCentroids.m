@@ -26,11 +26,17 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for j = 1:K 
+    assignee = X(idx == j, :);
 
+    new_cntr = zeros(1, n);
+    
+    for k = 1:n 
+        new_cntr(k) = mean(assignee(:, k));
+    end
 
-
-
-
+    centroids(j, :) = new_cntr;
+end
 
 
 % =============================================================

@@ -22,9 +22,29 @@ idx = zeros(size(X,1), 1);
 %
 
 
+% fprintf('%dx%d\n', size(centroids));
+% fprintf('%dx%d\n', size(X));
+% fprintf('%dx%d\n', size(idx));
+% fprintf('%dx%d\n', size(K));
 
 
+m = size(X, 1);
 
+for i=1:m
+
+    dist = inf; 
+
+    for j=1:K 
+        temp = sum((X(i, :) - centroids(j, :)).^2);
+
+        if temp < dist
+            dist = temp;
+            idx(i, :) = j;
+        end
+
+    end
+
+end
 
 
 % =============================================================
