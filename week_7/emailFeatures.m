@@ -49,9 +49,14 @@ x = zeros(n, 1);
 %
 
 
+m = length(word_indices);
 
 
+for idx = 1:m
 
+    x(word_indices(idx)) = 1;
+
+end
 
 
 
